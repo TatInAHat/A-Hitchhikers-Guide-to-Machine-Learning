@@ -95,7 +95,7 @@ def main():
     for classification, anything about 0.75 is +1 and earthlike
     and anything under 0.75 is -1 and not earthlike
     '''
-    classify(final, esi)
+    classified = classify(final, esi)
 
 
 main()
