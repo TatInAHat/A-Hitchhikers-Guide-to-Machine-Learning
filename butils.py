@@ -8,19 +8,36 @@ train = 'data/cumulative.csv'
 
 
 def get_data(filename):
+    # extract data from cumulative.csv file
     with open(filename, 'r') as data_file:
         reader = csv.reader(data_file, delimiter=',', quotechar='"')
         raw_data = [row for row in reader]
+    # take only row 54 onwards, where the actual data is present
     raw_data = raw_data[54:]
     data_array = np.asarray(raw_data, dtype=str)
 
-    columns = [4, 5, 9, 17, 21, 26, 30, 54, 59, 64]
-    final = data_array[:, [3,11,26,29,32,38,44]]
+    # columns we want from data
+    columns = [11, 26, 29, 32, 38, 44]
+    # get only columns from data
+    final = data_array[:, columns]
 
-    #print data_array
+    # replace all empty strings with nans
+    t1 = np.nan
+    t2 = str(t1)
+    final[final == ''] = t2
+
+    final = final.astype(float)
+
+    means = np.nanmean(final[:, [i for i in xrange(6)]], axis=0)
+
+    final = final[~(np.isnan(final)).any(1)]
+
+    return means, final
 
 
-    print final
+def main():
+    train = 'data/cumulative.csv'
+    means, final = get_data(train)
 
 
-get_data(train)
+main()
