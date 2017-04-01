@@ -1,6 +1,6 @@
 import csv
 import numpy as np
-import math
+import matplotlib.pyplot as plt
 
 train = 'data/cumulative.csv'
 
@@ -57,10 +57,45 @@ def ESI(data):
     return esi.reshape((len(esi), 1))
 
 
+# histogram plotting function to determin threshold esi
+def plot_it(title, xlabel, ylabel, data):
+    plt.title(title)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    plt.hist(data)
+    plt.show()
+    return 1
+
+
+# add classification based on esi
+def classify(data, esi):
+    # counter = 0
+    classification = np.zeros((len(esi), 1))
+    for i in xrange(len(data)):
+        if esi[i] >= 0.75:
+            # counter += 1
+            classification[i] = 1
+        else:
+            classification[i] = -1
+
+    # return (counter / 9200.0) * 1000000000000000000000000
+    data = np.c_[data, classification]
+    return data
+
+
 def main():
     train = 'data/cumulative.csv'
     means, final = get_data(train)
 
+    esi = ESI(final)
+
+    # plot_it("ESI Distribution", "ESI", "Frequency", esi)
+    '''
+    Plotted ESI distribution, chose 0.75 ESI score as threshold
+    for classification, anything about 0.75 is +1 and earthlike
+    and anything under 0.75 is -1 and not earthlike
+    '''
+    classify(final, esi)
 
 
 main()
