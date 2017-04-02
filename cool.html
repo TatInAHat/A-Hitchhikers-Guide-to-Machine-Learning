@@ -52,7 +52,25 @@
 <!-- 					<p>A free responsive template by <a href="http://templated.co">TEMPLATED</a></p>
  -->					<ul class="actions">
 						<div class="new">
-						<center> 
+
+						<form action="welcome.php" method="get">
+							<label>Orbital Period: </label>
+							<input placeholder="Enter a value" style="width: 250px" type="text" name="orbitalPeriod"><br>
+							<label>Planetary Radii (Earth Radii): </label>
+							<input placeholder="Enter a value" style="width: 250px" type="text" name="planetaryRadii"><br>
+							<label>Equilibrium Temp (K): </label>
+							<input placeholder="Enter a value" style="width: 250px" type="text" name="equilibriumTemp"><br>
+							<label>Insolation Flux (Earth Flux): </label>
+							<input placeholder="Enter a value" style="width: 250px" type="text" name="insolationFlux"><br>
+							<label>Stellar Eff. Temp (K): </label>
+							<input placeholder="Enter a value" style="width: 250px" type="text" name="stellarEffTemp"><br>	
+							<label>Stellar Radius (Solar Radii): </label>
+							<input placeholder="Enter a value" style="width: 250px" type="text" name="stellarRadius"><br>																
+							<input type="submit">
+						</form>
+
+
+						<!-- <center> 
 						    <table>
 						      <tr>
 						        <td>Orbital Period (days)</td>
@@ -80,7 +98,7 @@
 						      </tr>
 						    </table>
 							<a href="hotjupiter.html" class="button ">Get Results</a>		 
-						 </center> 
+						 </center>  -->
 						 </div>	
 					</ul>
 				</div>
