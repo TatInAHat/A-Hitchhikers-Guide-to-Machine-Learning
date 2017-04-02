@@ -1,40 +1,28 @@
 import csv
 import numpy as np
-from sklearn import tree
+from sklearn.neighbors import NearestNeighbors
 
 
 def get_data(filename):
-    # extract data from cumulative.csv file
     with open(filename, 'r') as data_file:
         reader = csv.reader(data_file, delimiter=',', quotechar='"')
         raw_data = [row for row in reader]
-    # take only row 54 onwards, where the actual data is present
     raw_data = raw_data[54:]
     data_array = np.asarray(raw_data, dtype=str)
 
-    # columns we want from data
     columns = [11, 26, 29, 32, 38, 44]
-    # get only columns from data
     final = data_array[:, columns]
 
-    # replace all empty strings with nans
     t1 = np.nan
     t2 = str(t1)
     final[final == ''] = t2
 
     final = final.astype(float)
-
     final = final[~(np.isnan(final)).any(1)]
 
-    means = np.mean(final[:, [i for i in xrange(6)]], axis=0)
-    stdevs = np.std(final[:, [i for i in xrange(6)]], axis=0)
-
-    # final = np.insert(final, 0, earth, 0)
-
-    return means, stdevs, final
+    return final
 
 
-# calculate earth similarity index of planets for labelling
 def ESI(data):
     e_flux = 1.3615  # kW/m^2
     e_radius = 6371  # km
@@ -57,19 +45,13 @@ def ESI(data):
     return esi.reshape((len(esi), 1))
 
 
-# add classification based on esi
 def classify(data, esi):
-    # counter = 0
     classification = np.zeros((len(esi), 1))
     for i in xrange(len(data)):
         if esi[i] >= 0.75:
-            # counter += 1
             classification[i] = 1
         else:
             classification[i] = -1
-
-    # return (counter / 9200.0) * 1000000000000000000000000
-    # return classification
     return np.c_[data, classification]
 
 
@@ -80,50 +62,23 @@ def train_test(data):
     return train, test
 
 
-def user_input(clf, parameters):
-    return clf.predict(parameters)
-
-
 def main():
     file = 'data/cumulative.csv'
-    means, stdevs, final = get_data(file)
-    esi = ESI(final)
+    X = get_data(file)
+    esi = ESI(X)
+    X = classify(X, esi)
 
-    classed = classify(final, esi)
-
-    train, test = train_test(classed)
+    train, test = train_test(X)
 
     train_points = train[:, :6]
     train_labels = train[:, 6]
     test_points = test[:, :6]
     test_labels = test[:, 6]
 
-    clf = tree.DecisionTreeClassifier()
-    clf.fit(train_points, train_labels)
+    nbrs = NearestNeighbors(n_neighbors=2, algorithm='ball_tree').fit(train_points)
+    distances, indices = nbrs.kneighbors(train_points)
 
-    b = clf.predict(train_points)
+    return 0
 
-    a = clf.predict(test_points)
-
-    # Ein = 0.0
-
-    # for j in xrange(len(train_points)):
-    #     if b[j] != train_labels[j]:
-    #         Ein += 1
-
-    # Eout = 0.0
-
-    # for i in xrange(len(test_points)):
-    #     if a[i] != test_labels[i]:
-    #         Eout += 1
-
-    # earth = [365.25, 1, 255, 1., 5777, 1]
-    # earth = np.asarray(earth)
-
-    # jupiter = [4300, 11.209, 109.9, 0.05026, 5777, 1]
-    # jupiter = np.asarray(jupiter)
-    # print clf.predict(jupiter)
 
 main()
-
-
