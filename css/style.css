@@ -1051,7 +1051,7 @@
 /* Output */
 	#output {
 		background-color: #666666;
-		background-image: url('https://media.giphy.com/media/gvM1SaOAoOwaA/giphy.gif');
+		background-image: url(../pics/space3.jpg);
 		background-size: cover;
 		background-position: center center;
 		background-repeat: repeat;
@@ -1061,6 +1061,11 @@
 		position: relative;
 	}
 
+/* Text */
+	#text {
+		word-wrap: break-word;
+		width: 700px;
+	}
 
 /* Footer */
 
