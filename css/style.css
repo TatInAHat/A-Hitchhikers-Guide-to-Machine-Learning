@@ -1067,6 +1067,15 @@
 		width: 700px;
 	}
 
+/* WhiteBG */
+	#whitebg {
+		background-color: white;
+	}
+/* Black text */
+	#blacktext {
+		color: black;
+	}
+
 /* Footer */
 
 	#footer {
