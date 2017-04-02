@@ -1,7 +1,18 @@
-import csv
+import tensorflow as tf
 import numpy as np
-from sklearn.neighbors import NearestNeighbors
+import keras
+from keras.layers.core import Dense, Dropout
 import tools
+
+tf.python.control_flow_ops = tf
+
+
+def parameter_search(hidden_layers, X_train, y_train, X_valid, y_valid,
+                   n_epochs=10, loss='mean_squared_error', optimizer='adam'):
+    s
+
+    return 0
+
 
 def main():
     file = 'data/cumulative.csv'
@@ -16,10 +27,7 @@ def main():
     test_points = test[:, :6]
     test_labels = test[:, 6]
 
-    nbrs = NearestNeighbors(n_neighbors=2, algorithm='ball_tree').fit(train_points)
-    distances, indices = nbrs.kneighbors(train_points)
 
     return 0
-
 
 main()
